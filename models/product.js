@@ -1,33 +1,33 @@
-const fs = require('fs');
-const path = require('path');
-const rootDir = require('../util/path');
+const fs = require("fs");
+const path = require("path");
+const rootDir = require("../util/path");
+
+const p = path.join(rootDir, "data", "products.json");
+
+const getProductsFromFile = (cb) => {
+  fs.readFile(p, (err, contentFile) => {
+    if (err) {
+      return cb([]);
+    }
+    cb(JSON.parse(contentFile));
+  });
+};
 
 module.exports = class Product {
-    constructor(t){
-        this.title = t;
-    }
+  constructor(t) {
+    this.title = t;
+  }
 
-    save() {
-        const p = path.join(rootDir, 'data', 'products.json');
-        fs.readFile(p, (err, contentFile) => {
-            let products = [];
-            if (!err) {
-                products = JSON.parse(contentFile);
-            }
-            products.push(this);
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-                console.log(err);
-            });
-        });
-    }
+  save() {
+    getProductsFromFile((products) => {
+      products.push(this);
+      fs.writeFile(p, JSON.stringify(products), (err) => {
+        console.log(err);
+      });
+    });
+  }
 
-    static fetchAll(cb) {
-        const p = path.join(rootDir, 'data', 'products.json');
-        fs.readFile(p, (err, contentFile) => {
-            if (err) {
-                cb([]);
-            }
-            cb (JSON.parse(contentFile));
-        })
-    }
-}
+  static fetchAll(cb) {
+    getProductsFromFile(cb);
+  }
+};
