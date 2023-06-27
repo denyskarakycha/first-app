@@ -10,6 +10,9 @@ router.get('/', shopController.getIndex);
 
 router.get('/products', shopController.getProducts);
 
+
+router.get('/products/:productId', shopController.getInformationProductById); // цей синтаксис говорить що ніби це не посилання а динамічна змінна
+
 router.get('/cart', shopController.getCart);
 
 router.get('/orders', shopController.getOrders);
