@@ -15,13 +15,10 @@ module.exports = class Cart {
             }
             if (!err) {
                 cart = JSON.parse(fileContent);
-                console.log(cart);
             }
             // Analyze the cart => Find existing product 
             const existingProductIndex = cart.products.findIndex(prod => prod.id === id);
-            console.log(existingProductIndex);
             const existingProduct = cart.products[existingProductIndex];
-            console.log(existingProduct);
             let updatedProduct;
             // Add new product/ increase quantity
             if (existingProduct) {
@@ -31,9 +28,7 @@ module.exports = class Cart {
                 cart.products[existingProductIndex] = updatedProduct;
             } else {
                 updatedProduct = {id: id, qty: 1};
-                console.log(updatedProduct);
                 cart.products = [...cart.products, updatedProduct];
-                console.log(cart.products);
             }
 
             cart.totalPrice = cart.totalPrice + +productPrice;
